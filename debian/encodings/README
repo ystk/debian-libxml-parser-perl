@@ -1,0 +1,9 @@
+These uuencoded binary encoding files were copied from version 2.36-1
+of the libxml-parser-perl package. They were originally created from
+XML source files in the libxml-encoding-perl package (version 2.01-1)
+with the 'compile_encoding' script in the same package:
+
+ compile_encoding -o Parser/Encodings/$(encoding).enc /usr/share/libxml-encoding-perl/$(encoding).xml
+
+See http://bugs.debian.org/458144
+

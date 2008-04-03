@@ -1,0 +1,85 @@
+#!/usr/bin/make -f
+## ----------------------------------------------------------------------
+## debian/rules : package script for libxml-parser-perl
+## ----------------------------------------------------------------------
+
+## ----------------------------------------------------------------------
+## uncomment this to turn on verbose mode
+#export DH_VERBOSE=1
+
+## ----------------------------------------------------------------------
+TMP_DIR	:=	$(CURDIR)/debian/tmp
+
+## ----------------------------------------------------------------------
+CFLAGS	=	-Wall -g
+ifneq (,$(findstring noopt,$(DEB_BUILD_OPTIONS)))
+		CFLAGS	+= -O0
+else
+		CFLAGS	+= -O2
+endif
+
+## ----------------------------------------------------------------------
+ADDED_ENCODINGS	= \
+		iso-8859-1 \
+		iso-8859-6 \
+		iso-8859-10 \
+		iso-8859-11 \
+		iso-8859-13 \
+		iso-8859-14 \
+		iso-8859-15 \
+		iso-8859-16 \
+		windows-1251
+
+## ----------------------------------------------------------------------
+## targets
+
+clean:
+		dh_testdir
+		dh_testroot
+		[ ! -f Makefile ] || $(MAKE) realclean
+		dh_clean README.Encodings build-stamp install-stamp \
+			$(foreach encoding,$(ADDED_ENCODINGS),Parser/Encodings/$(encoding).enc)
+
+build:		build-stamp
+build-stamp:
+		dh_testdir
+		$(foreach encoding,$(ADDED_ENCODINGS),uudecode -o Parser/Encodings/$(encoding).enc debian/encodings/$(encoding).uuenc ;)
+		perl Makefile.PL INSTALLDIRS=vendor
+		$(MAKE) OPTIMIZE="$(CFLAGS)"
+		$(MAKE) test
+		touch build-stamp
+
+install:	install-stamp
+install-stamp:	build
+		dh_testdir
+		dh_testroot
+		dh_clean -k
+		dh_installdirs
+		$(MAKE) install DESTDIR=$(TMP_DIR) PREFIX=/usr
+		cp -a Parser/Encodings/README README.Encodings
+		touch install-stamp
+
+binary-indep:
+
+binary-arch:	build install
+		dh_testdir
+		dh_testroot
+		dh_install --sourcedir=$(TMP_DIR)
+		dh_installdocs
+		dh_installexamples
+		dh_installchangelogs Changes
+		dh_strip
+		dh_compress
+		dh_fixperms
+		dh_installdeb
+		dh_shlibdeps
+		dh_perl
+		dh_gencontrol
+		dh_md5sums
+		dh_builddeb
+
+binary:		binary-indep binary-arch
+
+.PHONY:		clean build install binary-indep binary-arch binary
+
+## ----------------------------------------------------------------------

@@ -1,0 +1,35 @@
+Source: libxml-parser-perl
+Section: perl
+Priority: optional
+Maintainer: Debian XML/SGML Group <debian-xml-sgml-pkgs@lists.alioth.debian.org>
+Uploaders: Ardo van Rangelrooij <ardo@debian.org>
+Homepage: http://www.libexpat.org/
+Vcs-Browser: http://alioth.debian.org/plugins/scmcvs/cvsweb.php/packages/libxml-parser-perl/?cvsroot=debian-xml-sgml
+Vcs-Cvs: :pserver:anonymous@cvs.alioth.debian.org:/cvsroot/debian-xml-sgml/packages/libxml-parser-perl
+Standards-Version: 3.7.3
+Build-Depends: debhelper (>= 5.0), perl (>= 5.8.0-3), liburi-perl, libwww-perl, libexpat1-dev, sharutils
+
+Package: libxml-parser-perl
+Section: perl
+Priority: optional
+Architecture: any
+Depends: ${perl:Depends}, liburi-perl, libwww-perl, ${shlibs:Depends}
+Description: Perl module for parsing XML files
+ This module provides ways to parse XML documents.  It is built on top
+ of XML::Parser::Expat, which is a lower level interface to James
+ Clark's expat library.  Each call to one of the parsing methods
+ creates a new instance of XML::Parser::Expat which is then used to
+ parse the document.  Expat options may be provided when the
+ XML::Parser object is created.  These options are then passed on to
+ the Expat object on each parse call.  They can also be given as extra
+ arguments to the parse methods, in which case they override options
+ given at XML::Parser creation time.
+ .
+ The behavior of the parser is controlled either by Style and/or
+ Handlers options, or by setHandlers method.  These all provide
+ mechanisms for XML::Parser to set the handlers needed by
+ XML::Parser::Expat.  If neither Style nor Handlers are specified,
+ then parsing just checks the document for being well-formed.
+ .
+ When underlying handlers get called, they receive as their first
+ parameter the Expat object, not the Parser object.
