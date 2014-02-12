@@ -1,3 +1,52 @@
+libxml-parser-perl (2.41-1) unstable; urgency=low
+
+  * New upstream release
+  * Removed patch applied upstream
+
+ -- Nicholas Bamber <nicholas@periapt.co.uk>  Fri, 03 Jun 2011 23:09:10 +0100
+
+libxml-parser-perl (2.40-2) unstable; urgency=low
+
+  [ Nicholas Bamber ]
+  * Created rule to create encodings from libxml-encoding-perl, cf. #458144
+  * Dropped build dependency on libxml-encoding-perl
+  * Added debian/README.source
+
+  [ gregor herrmann ]
+  * Use binary encodings files instead of uuencoded ones (adjust debian/rules,
+    add debian/source/options).
+
+ -- Nicholas Bamber <nicholas@periapt.co.uk>  Thu, 19 May 2011 20:33:59 +0100
+
+libxml-parser-perl (2.40-1) unstable; urgency=low
+
+  [ Nicholas Bamber ]
+  * Moved package to Debian Perl Group
+  * Updated VCS and Home page (Closes: #528293)
+  * Raised standards version to 3.9.2
+  * Reviewed dependencies
+  * Raised debhelper version and compat level to 7
+  * New upstream release
+  * Refreshed debian/rules and removed unneeded debhelper files
+  * Removed duplicate control fields
+  * Added debian/source/format
+  * Email change: Stevie Strickland -> sstrickl@cc.gatech.edu
+  * Email change: Raphael Hertzog -> hertzog@debian.org
+  * Refreshed copyright
+  * Added patch to fix NAME entries in pod (Closes: #472860)
+  * Added patch to fix other pod errors (Closes: #588994)
+  * Added patch to fix spelling errors
+  * Added rules to fix local perl shebang and not to compress xmlfilter
+  * Added rules to recompile encodings from libxml-encoding-perl in 
+    preference to the encodings bundled with upstream
+  * Remove the contributed encodings as they appear to be in XML::Encoding
+  * Added doc-base references to documentation in XML/Parser/Encodings directory
+
+  [ gregor herrmann ]
+  * debian/watch: use dist-based URL.
+
+ -- Nicholas Bamber <nicholas@periapt.co.uk>  Sun, 15 May 2011 11:11:16 +0100
+
 libxml-parser-perl (2.36-1.1) unstable; urgency=low
 
   * Non-maintainer upload for the Perl 5.10 transition.

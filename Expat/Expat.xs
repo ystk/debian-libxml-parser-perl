@@ -291,6 +291,7 @@ parse_stream(XML_Parser parser, SV * ioref)
   char *	linebuff;
   STRLEN	lblen;
   STRLEN	br = 0;
+  int		buffsize;
   int		done = 0;
   int		ret = 1;
   char *	msg = NULL;
@@ -335,27 +336,33 @@ parse_stream(XML_Parser parser, SV * ioref)
     }
 
     PUTBACK ;
+    buffsize = lblen;
     done = lblen == 0;
   }
   else {
     tbuff = newSV(0);
     tsiz = newSViv(BUFSIZE);
+    buffsize = BUFSIZE;
   }
 
   while (! done)
     {
-      char *buffer, *tb;
+      char *buffer = XML_GetBuffer(parser, buffsize);
+
+      if (! buffer)
+	croak("Ran out of memory for input buffer");
 
       SAVETMPS;
 
       if (cbv->delim) {
-	tb = linebuff;
+	Copy(linebuff, buffer, lblen, char);
 	br = lblen;
 	done = 1;
       }
       else {
 	int cnt;
 	SV * rdres;
+	char * tb;
 
 	PUSHMARK(SP);
 	EXTEND(SP, 3);
@@ -377,21 +384,13 @@ parse_stream(XML_Parser parser, SV * ioref)
 	  croak("read error");
 
 	tb = SvPV(tbuff, br);
-	/* br == number of bytes read from stream
-	   Note that it is possible that br > BUFSIZE if the input stream
-	   is decoding a non-ASCII source. */
-	if (br <= 0)
+	if (br > 0)
+	  Copy(tb, buffer, br, char);
+	else
 	  done = 1;
 
 	PUTBACK ;
       }
-
-      buffer = XML_GetBuffer(parser, br);
-      if (! buffer)
-	croak("Ran out of memory for input buffer");
-
-      if (br > 0)
-        Copy(tb, buffer, br, char);
 
       ret = XML_ParseBuffer(parser, br, done);
 
@@ -496,7 +495,7 @@ startElement(void *userData, const char *name, const char **atts)
     }
   }
 
-  if (cbv->st_serial_stackptr + 1 >= cbv->st_serial_stacksize) {
+  if (cbv->st_serial_stackptr >= cbv->st_serial_stacksize) {
     unsigned int newsize = cbv->st_serial_stacksize + 512;
 
     Renew(cbv->st_serial_stack, newsize, unsigned int);

@@ -1,21 +1,22 @@
 Source: libxml-parser-perl
 Section: perl
 Priority: optional
-Maintainer: Debian XML/SGML Group <debian-xml-sgml-pkgs@lists.alioth.debian.org>
-Uploaders: Ardo van Rangelrooij <ardo@debian.org>
+Maintainer: Debian Perl Group <pkg-perl-maintainers@lists.alioth.debian.org>
+Uploaders: Nicholas Bamber <nicholas@periapt.co.uk>,
+ Daniel Leidert (dale) <daniel.leidert@wgdd.de>
+Standards-Version: 3.9.2
+Build-Depends: debhelper (>= 7.0.50~), perl, liburi-perl, libwww-perl,
+ libexpat1-dev, sharutils
+Vcs-Browser: http://svn.debian.org/viewsvn/pkg-perl/trunk/libxml-parser-perl/
+Vcs-Svn: svn://svn.debian.org/pkg-perl/trunk/libxml-parser-perl/
 Homepage: http://www.libexpat.org/
-Vcs-Browser: http://alioth.debian.org/plugins/scmcvs/cvsweb.php/packages/libxml-parser-perl/?cvsroot=debian-xml-sgml
-Vcs-Cvs: :pserver:anonymous@cvs.alioth.debian.org:/cvsroot/debian-xml-sgml/packages/libxml-parser-perl
-Standards-Version: 3.7.3
-Build-Depends: debhelper (>= 5.0), perl (>= 5.8.0-3), liburi-perl, libwww-perl, libexpat1-dev, sharutils
 
 Package: libxml-parser-perl
-Section: perl
-Priority: optional
 Architecture: any
-Depends: ${perl:Depends}, liburi-perl, libwww-perl, ${shlibs:Depends}
+Depends: ${perl:Depends}, ${misc:Depends}, liburi-perl, libwww-perl,
+ ${shlibs:Depends}
 Description: Perl module for parsing XML files
- This module provides ways to parse XML documents.  It is built on top
+ XML::Parser module provides ways to parse XML documents.  It is built on top
  of XML::Parser::Expat, which is a lower level interface to James
  Clark's expat library.  Each call to one of the parsing methods
  creates a new instance of XML::Parser::Expat which is then used to

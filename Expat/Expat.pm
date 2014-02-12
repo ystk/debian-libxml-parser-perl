@@ -10,7 +10,7 @@ use Carp;
 require DynaLoader;
 
 @ISA = qw(DynaLoader);
-$VERSION = "2.36" ;
+$VERSION = "2.41";
 
 $have_File_Spec = $INC{'File/Spec.pm'} || do 'File/Spec.pm';
 
@@ -442,12 +442,12 @@ sub parse {
   my $result = 0;
   
   if (defined $arg) {
+    local *@;
     if (ref($arg) and UNIVERSAL::isa($arg, 'IO::Handle')) {
       $ioref = $arg;
-    } elsif (tied($arg)) {
-      my $class = ref($arg);
-      no strict 'refs';
-      $ioref = $arg if defined &{"${class}::TIEHANDLE"};
+    } elsif ($] < 5.008 and defined tied($arg)) {
+      require IO::Handle;
+      $ioref = $arg;
     }
     else {
       require IO::Handle;
@@ -455,20 +455,21 @@ sub parse {
         no strict 'refs';
         $ioref = *{$arg}{IO} if defined *{$arg};
       };
-      undef $@;
     }
   }
   
   if (defined($ioref)) {
     my $delim = $self->{Stream_Delimiter};
     my $prev_rs;
+    my $ioclass = ref $ioref;
+    $ioclass = "IO::Handle" if !length $ioclass;
     
-    $prev_rs = ref($ioref)->input_record_separator("\n$delim\n")
+    $prev_rs = $ioclass->input_record_separator("\n$delim\n")
       if defined($delim);
     
     $result = ParseStream($parser, $ioref, $delim);
     
-    ref($ioref)->input_record_separator($prev_rs)
+    $ioclass->input_record_separator($prev_rs)
       if defined($delim);
   } else {
     $result = ParseString($parser, $arg);
@@ -495,7 +496,8 @@ sub parsefile {
 }
 
 ################################################################
-package XML::Parser::ContentModel;
+package #hide from PAUSE
+ XML::Parser::ContentModel;
 use overload '""' => \&asString, 'eq' => \&thiseq;
 
 sub EMPTY  () {1}
@@ -582,7 +584,8 @@ sub thiseq {
 }
 
 ################################################################
-package XML::Parser::ExpatNB;
+package #hide from PAUSE
+ XML::Parser::ExpatNB;
 
 use vars qw(@ISA);
 use Carp;
@@ -648,7 +651,8 @@ sub parse_done {
 
 ################################################################
 
-package XML::Parser::Encinfo;
+package  #hide from PAUSE
+ XML::Parser::Encinfo;
 
 sub DESTROY {
   my $self = shift;
@@ -667,11 +671,11 @@ XML::Parser::Expat - Lowlevel access to James Clark's expat XML parser
 
  use XML::Parser::Expat;
 
- $parser = new XML::Parser::Expat;
+ $parser = XML::Parser::Expat->new;
  $parser->setHandlers('Start' => \&sh,
                       'End'   => \&eh,
                       'Char'  => \&ch);
- open(FOO, 'info.xml') or die "Couldn't open";
+ open(FOO, '<', 'info.xml') or die "Couldn't open";
  $parser->parse(*FOO);
  close(FOO);
  # $parser->parse('<foo id="me"> here <em>we</em> go </foo>');
@@ -1212,7 +1216,7 @@ name discovered in the @Encoding_Path path list is used.
 The encoding in the file is loaded and kept in the %Encoding_Table
 table. Earlier encodings of the same name are replaced.
 
-This function is automaticly called by expat when it encounters an encoding
+This function is automatically called by expat when it encounters an encoding
 it doesn't know about. Expat shouldn't call this twice for the same
 encoding name. The only reason users should use this function is to
 explicitly load an encoding not contained in the @Encoding_Path list.
