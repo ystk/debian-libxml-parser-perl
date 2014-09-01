@@ -1,8 +1,11 @@
 Subject: Pod files lacking description in NAME section
+Bug: https://rt.cpan.org/Ticket/Display.html?id=97030
 Bug-Debian: http://bugs.debian.org/cgi-bin/bugreport.cgi?bug=472860
+Forwarded: https://rt.cpan.org/Ticket/Display.html?id=97030
 Author: Nicholas Bamber <nicholas@periapt.co.uk>
-Forwarded: no
-Last-Update: 2011-04-29
+Reviewed-by: gregor herrmann <gregoa@debian.org>
+Last-Update: 2014-07-07
+
 --- a/Parser/Style/Objects.pm
 +++ b/Parser/Style/Objects.pm
 @@ -52,7 +52,7 @@

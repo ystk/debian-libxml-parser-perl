@@ -1,8 +1,11 @@
-Author: Nicholas Bamber <nicholas@periapt.co.uk>
 Subject: pod error
-Last-Update: 2011-04-29
-Forwarded: no
+Bug: https://rt.cpan.org/Ticket/Display.html?id=97029
 Bug-Debian: http://bugs.debian.org/cgi-bin/bugreport.cgi?bug=588994
+Forwarded: https://rt.cpan.org/Ticket/Display.html?id=97029
+Author: Nicholas Bamber <nicholas@periapt.co.uk>
+Reviewed-by: gregor herrmann <gregoa@debian.org>
+Last-Update: 2014-07-07
+
 --- a/Parser.pm
 +++ b/Parser.pm
 @@ -360,7 +360,7 @@

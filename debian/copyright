@@ -1,7 +1,7 @@
-Format-Specification: http://svn.debian.org/wsvn/dep/web/deps/dep5.mdwn?op=file&rev=135
-Maintainer: Alexandr Ciornii <alexchorny@gmail.com>
-Source: http://search.cpan.org/dist/XML-Parser/
-Name: XML-Parser
+Format: http://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
+Upstream-Name: XML-Parser
+Upstream-Contact: Alexandr Ciornii <alexchorny@gmail.com>
+Source: https://metacpan.org/release/XML-Parser
 
 Files: *
 Copyright:
@@ -24,6 +24,7 @@ Copyright:
  2006, Steinar H. Gunderson <sesse@debian.org>
  2008, Niko Tyni <ntyni@debian.org>
  2011, Nicholas Bamber <nicholas@periapt.co.uk>
+ 2011-2014, gregor herrmann <gregoa@debian.org>
 License: Artistic or GPL-1+
 
 License: Artistic
