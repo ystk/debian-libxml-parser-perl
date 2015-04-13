@@ -6,5 +6,5 @@ Section: Programming/Perl
 
 Format: Text
 Files:
- /usr/lib/perl5/XML/Parser/Encodings/README
- /usr/lib/perl5/XML/Parser/Encodings/Japanese_Encodings.msg
+ @ARCHLIB@/XML/Parser/Encodings/README
+ @ARCHLIB@/XML/Parser/Encodings/Japanese_Encodings.msg

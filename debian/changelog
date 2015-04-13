@@ -1,3 +1,14 @@
+libxml-parser-perl (2.41-3) unstable; urgency=medium
+
+  [ Salvatore Bonaccorso ]
+  * Update Vcs-Browser URL to cgit web frontend
+
+  [ Niko Tyni ]
+  * Add autopkgtest support.
+  * Fix outdated vendorarch directory in doc-base file lists. (Closes: #758294)
+
+ -- Niko Tyni <ntyni@debian.org>  Sat, 06 Sep 2014 18:28:21 +0300
+
 libxml-parser-perl (2.41-2) unstable; urgency=low
 
   [ Ansgar Burchardt ]

@@ -6,6 +6,7 @@ EG:=$(TMP)/usr/share/doc/$(PKG)/examples
 XE_FILES:=$(wildcard /usr/share/libxml-encoding-perl/*.xml)
 ENC_FILES:=$(wildcard debian/encodings/*.enc)
 
+ARCHLIB := $(shell perl -MConfig -e 'print $$Config{vendorarch}')
 
 %:
 	dh $@
@@ -21,6 +22,10 @@ override_dh_auto_build:
 	dh_auto_build
 	$(foreach f,$(ENC_FILES),rm -f blib/lib/XML/Parser/Encodings/$(basename $(notdir $(f))).enc;)
 	$(foreach f,$(ENC_FILES),cp $f blib/lib/XML/Parser/Encodings/;)
+
+override_dh_installdocs:
+	sed -e 's,@ARCHLIB@,$(ARCHLIB),g' debian/libxml-parser-perl.doc-base_in > debian/libxml-parser-perl.doc-base
+	dh_installdocs
 
 make_encodings: /usr/share/libxml-encoding-perl
 	rm -rf debian/encodings/*
